@@ -1,1 +1,1 @@
-# Pracownia_Dyplomowa_praca_in-ynierska
+# Pracownia_Dyplomowa_praca_inżynierska
