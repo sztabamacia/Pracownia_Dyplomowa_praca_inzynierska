@@ -1,0 +1,8 @@
+dependency-injector>=4.41.0
+fastapi>=0.104.0
+sqlalchemy>=2.0.22
+python-dotenv>=1.0.0
+uvicorn>=0.23.2
+passlib>=1.7.4
+bcrypt==4.0.1
+python-jose[cryptography]>=3.3.0
