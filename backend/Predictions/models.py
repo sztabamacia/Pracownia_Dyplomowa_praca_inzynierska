@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image
 from class_names import class_names
 
-model = tf.keras.models.load_model('../model1.h5')
+model = tf.keras.models.load_model('../../modelNajlepszy.h5')
 
 def load_image(image_path):
     img = tf.keras.preprocessing.image.load_img(image_path, target_size=(150, 150))

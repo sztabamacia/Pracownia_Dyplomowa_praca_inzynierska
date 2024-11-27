@@ -6,17 +6,17 @@ from .services import HistoryService
 
 router = APIRouter()
 
-@router.get("/", response_model=list[HistorySchema], status_code=200, tags=["History"])
+@router.get("/get/list", response_model=list[HistorySchema], status_code=200, tags=["History"])
 @inject
 async def get_histories(history_service: HistoryService = Depends(Provide[Container.history_service])):
     return history_service.get_histories()
 
-@router.get("/{history_id}", response_model=HistorySchema, status_code=200, tags=["History"])
+@router.get("/get/{history_id}", response_model=HistorySchema, status_code=200, tags=["History"])
 @inject
 async def get_history(history_id: int, history_service: HistoryService = Depends(Provide[Container.history_service])):
     return history_service.get_history(history_id)
 
-@router.post("/", response_model=HistorySchema, status_code=201, tags=["History"])
+@router.post("/create", response_model=HistorySchema, status_code=201, tags=["History"])
 @inject
 async def create_history(
     history_service = Depends(Provide[Container.history_service]),

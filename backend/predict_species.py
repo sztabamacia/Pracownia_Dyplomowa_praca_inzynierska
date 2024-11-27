@@ -21,4 +21,4 @@ def predict_top_3_classes(model, image_path, class_names):
     top_3_indices = np.argsort(predictions)[-3:][::-1]
     return [(class_names[i], predictions[i]) for i in top_3_indices]
 
-print(predict_top_3_classes(load_model('./modelNajlepszy.h5'), './dataset/Cetraria islandica/4024medium.jpeg', cn.class_names))
+print(predict_top_3_classes(load_model('../modelNajlepszy.h5'), './dataset/Cetraria islandica/4024medium.jpeg', cn.class_names))

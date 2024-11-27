@@ -11,12 +11,12 @@ router = APIRouter()
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-@router.get("/", response_model=list[UserSchema], status_code=200, tags=["User"])
+@router.get("/get/list", response_model=list[UserSchema], status_code=200, tags=["User"])
 @inject
 async def get_users(user_service: UserService = Depends(Provide[Container.user_service])):
     return user_service.get_users()
 
-@router.post("/", response_model=UserSchema, status_code=201, tags=["User"])
+@router.post("/register", response_model=UserSchema, status_code=201, tags=["User"])
 @inject
 async def create_user(
     user_service=Depends(Provide[Container.user_service]),
@@ -24,12 +24,12 @@ async def create_user(
 ):
     return user_service.create_user(user)
 
-@router.get("/{user_id}", response_model=UserSchema, status_code=200, tags=["User"])
+@router.get("/get/{user_id}", response_model=UserSchema, status_code=200, tags=["User"])
 @inject
 async def get_user(user_id: int, user_service: UserService = Depends(Provide[Container.user_service])):
     return jsonable_encoder(user_service.get_user(user_id))
 
-@router.put("/{user_id}", response_model=UserSchema, status_code=200, tags=["User"])
+@router.put("/update/{user_id}", response_model=UserSchema, status_code=200, tags=["User"])
 @inject
 async def update_user(
     user_service=Depends(Provide[Container.user_service]),
@@ -39,7 +39,7 @@ async def update_user(
     return user_service.update_user(user_id, user)
 
 
-@router.delete("/{user_id}", status_code=204, tags=["User"])
+@router.delete("/delete/{user_id}", status_code=204, tags=["User"])
 @inject
 async def delete_user(
     user_service=Depends(Provide[Container.user_service]),
