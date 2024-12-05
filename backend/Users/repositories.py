@@ -62,16 +62,13 @@ class UserRepository:
     
     def login(self, user: UserSchemaLogin):
         with self.session_factory() as session:
-            fetched_user = session.query(User).filter(User.email==user.email).first()
+            fetched_user = session.query(User).filter(User.email == user.email).first()
 
         if not fetched_user:
             raise HTTPException(status_code=401, detail="Incorrect email")
-        
+
         if not pwd_context.verify(user.passwordHash, fetched_user.passwordHash):
-            raise HTTPException(status_code=401, detail="Incorrectpassword")
-        
-        if fetched_user:
-            if verify_password(user.passwordHash, fetched_user.passwordHash):
-                return create_access_token({"userID":fetched_user.userID})
-        
-        return create_access_token({"userID":fetched_user.userID})
+            raise HTTPException(status_code=401, detail="Incorrect password")
+
+        token = create_access_token({"userID": fetched_user.userID})
+        return {"token": token, "userID": fetched_user.userID}

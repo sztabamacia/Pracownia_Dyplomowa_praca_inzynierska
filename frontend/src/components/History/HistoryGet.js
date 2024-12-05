@@ -3,13 +3,13 @@ import { useParams } from 'react-router-dom';
 import historyService from '../../services/historyService';
 
 const HistoryGet = () => {
-  const { id } = useParams();
+  const { userId, historyId } = useParams();
   const [history, setHistory] = useState(null);
 
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const response = await historyService.getHistoryById(id);
+        const response = await historyService.getHistoryByUserIdAndHistoryId(userId, historyId);
         setHistory(response.data);
       } catch (error) {
         console.error('Error fetching history:', error);
@@ -17,7 +17,7 @@ const HistoryGet = () => {
     };
 
     fetchHistory();
-  }, [id]);
+  }, [userId, historyId]);
 
   if (!history) {
     return <div>Loading...</div>;

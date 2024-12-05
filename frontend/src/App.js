@@ -13,18 +13,22 @@ import UserList from './components/User/UserList';
 import UserUpdate from './components/User/UserUpdate';
 import UserDetail from './components/User/UserDetail';
 import PredictionPost from './components/Prediction/PredictionPost';
+import Navigation from './components/Navigation';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
   return (
     <Router>
       <div className="App">
         <header className="App-header">
+          <Navigation isLoggedIn={isLoggedIn} />
           <Routes>
             <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
             <Route path="/" element={<Home />} />
-            <Route path="/history" element={<HistoryList />} />
-            <Route path="/history/:id" element={<HistoryGet />} />
+            <Route path="/history/:userId" element={<HistoryList />} />
+            <Route path="/history/:userId/history/:historyId" element={<HistoryGet />} />
             <Route path="/mushrooms" element={<MushroomList />} />
             <Route path="/mushrooms/create" element={<MushroomCreate />} />
             <Route path="/mushrooms/:id" element={<MushroomDetail />} />

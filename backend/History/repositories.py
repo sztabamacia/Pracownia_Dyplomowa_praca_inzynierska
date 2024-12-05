@@ -29,6 +29,14 @@ class HistoryRepository:
     def get_by_id(self, history_id: int):
         with self.session_factory() as session:
             return session.query(History).filter(History.historyID == history_id).first()
+        
+    def get_by_user_id(self, user_id: int):
+        with self.session_factory() as session:
+            return session.query(History).filter(History.userID == user_id).all()
+
+    def get_by_user_id_and_history_id(self, user_id: int, history_id: int):
+        with self.session_factory() as session:
+            return session.query(History).filter(History.userID == user_id, History.historyID == history_id).first()
 
     def add(self, history: HistorySchemaCreate) -> History:
         with self.session_factory() as session:

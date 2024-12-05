@@ -2,18 +2,15 @@ import axios from 'axios';
 
 const API_URL = 'http://127.0.0.1:8000/history/get';
 
-const getHistoryList = () => {
-  return axios.get(`${API_URL}/list`);
+const getHistoryListByUserId = async (userID) => {
+  return await axios.get(`${API_URL}/list/user/${userID}`);
 };
 
-const getHistoryById = (id) => {
-  return axios.get(`${API_URL}/${id}`);
+const getHistoryByUserIdAndHistoryId = async (userID, historyID) => {
+  return await axios.get(`${API_URL}/user/${userID}/history/${historyID}`);
 };
 
-const createHistory = (data) => {
-    return
-};
 export default {
-  getHistoryList,
-  getHistoryById
+  getHistoryListByUserId,
+  getHistoryByUserIdAndHistoryId,
 };

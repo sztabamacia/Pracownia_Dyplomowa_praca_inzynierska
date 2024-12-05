@@ -6,8 +6,9 @@ const register = (userData) => {
   return axios.post(`${API_URL}/register`, userData);
 };
 
-const login = (userData) => {
-  return axios.post(`${API_URL}/login`, userData);
+const login = async (formData) => {
+  const response = await axios.post(`${API_URL}/login`, formData);
+  return response.data;
 };
 
 export default {
