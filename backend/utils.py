@@ -1,7 +1,7 @@
 from passlib.context import CryptContext
 from fastapi.security import HTTPBearer
 from datetime import datetime, timedelta
-from jose import jwt
+from jose import jwt, JWTError, ExpiredSignatureError
 from settings import (
     SECRET_KEY,
     ALGORITHM,
@@ -18,18 +18,24 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 oauth2_scheme = HTTPBearer()
 
-def create_access_token(data:dict):
+def create_access_token(data: dict):
     to_encode = data.copy()
     expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return {"access_token": encoded_jwt}
+    return encoded_jwt
 
-def decode_token(token:str):
+def decode_token(token: str):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         return payload
-    except jwt.ExpiredSignatureError:
+    except ExpiredSignatureError:
         return None
-    except jwt.InvalidTokenError:
+    except JWTError:
         return None
+
+def get_user_id_from_token(token: str):
+    payload = decode_token(token)
+    if payload:
+        return payload.get("sub")
+    return None

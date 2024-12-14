@@ -70,5 +70,4 @@ class UserRepository:
         if not pwd_context.verify(user.passwordHash, fetched_user.passwordHash):
             raise HTTPException(status_code=401, detail="Incorrect password")
 
-        token = create_access_token({"userID": fetched_user.userID})
-        return {"token": token, "userID": fetched_user.userID}
+        return fetched_user

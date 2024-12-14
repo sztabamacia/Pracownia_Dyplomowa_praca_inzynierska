@@ -1,24 +1,29 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import AuthContext from '../contexts/AuthContext';
 
-const Navigation = ({ isLoggedIn }) => {
-    const userId = localStorage.getItem('userID');
+const Navigation = () => {
+  const { isLoggedIn, userID, logout } = useContext(AuthContext);
 
-    return (
-        <nav>
-            <ul>
-                {isLoggedIn ? (
-                    <>
-                        <li><Link to={`/users/${userId}`}>Profil</Link></li>
-                        <li><Link to={`/history/${userId}`}>Historia</Link></li>
-                        <li><Link to="/predictions">Predyktor</Link></li>
-                    </>
-                ) : (
-                    <li><Link to="/login">Logowanie</Link></li>
-                )}
-            </ul>
-        </nav>
-    );
-}
+  return (
+    <nav>
+      <ul>
+        {isLoggedIn ? (
+          <>
+            <li><Link to={`/users/detail/${userID}`}>Profile</Link></li>
+            <li><Link to={`/history/${userID}`}>History</Link></li>
+            <li><Link to="/predictions">Predictions</Link></li>
+            <li><button onClick={logout}>Logout</button></li>
+          </>
+        ) : (
+          <>
+            <li><Link to="/register">Register</Link></li>
+            <li><Link to="/login">Login</Link></li>
+          </>
+        )}
+      </ul>
+    </nav>
+  );
+};
 
 export default Navigation;

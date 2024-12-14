@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import authService from '../../services/authService';
+import AuthContext from '../../contexts/AuthContext';
 
-const Login = ({ setIsLoggedIn }) => {
+const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
     passwordHash: ''
   });
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,11 +23,9 @@ const Login = ({ setIsLoggedIn }) => {
     e.preventDefault();
     try {
       const response = await authService.login(formData);
-      setIsLoggedIn(true); // Ustaw stan logowania na true po pomyślnym zalogowaniu
-      localStorage.setItem('token', response.token); // Przechowaj token w local storage
-      localStorage.setItem('userID', response.userID); // Przechowaj userID w local storage
+      login(response.access_token, response.userID); // Ustaw stan logowania
       alert('Login successful');
-      navigate(`/users/${response.userID}`); // Przekierowanie na stronę profilu użytkownika
+      navigate(`/users/detail/${response.userID}`); // Przekierowanie na stronę profilu użytkownika
     } catch (error) {
       console.error('Error during login:', error);
       alert('Login failed');

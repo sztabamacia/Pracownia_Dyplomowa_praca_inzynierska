@@ -14,32 +14,33 @@ import UserUpdate from './components/User/UserUpdate';
 import UserDetail from './components/User/UserDetail';
 import PredictionPost from './components/Prediction/PredictionPost';
 import Navigation from './components/Navigation';
+import { AuthProvider } from './contexts/AuthContext';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-
   return (
-    <Router>
-      <div className="App">
-        <header className="App-header">
-          <Navigation isLoggedIn={isLoggedIn} />
-          <Routes>
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/history/:userId" element={<HistoryList />} />
-            <Route path="/history/:userId/history/:historyId" element={<HistoryGet />} />
-            <Route path="/mushrooms" element={<MushroomList />} />
-            <Route path="/mushrooms/create" element={<MushroomCreate />} />
-            <Route path="/mushrooms/:id" element={<MushroomDetail />} />
-            <Route path="/users" element={<UserList />} />
-            <Route path="/users/:id" element={<UserUpdate />} />
-            <Route path="/users/detail/:id" element={<UserDetail />} />
-            <Route path="/predictions" element={<PredictionPost />} />
-          </Routes>
-        </header>
-      </div>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <div className="App">
+          <header className="App-header">
+            <Navigation />
+            <Routes>
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/history/:userId" element={<HistoryList />} />
+              <Route path="/history/:userId/history/:historyId" element={<HistoryGet />} />
+              <Route path="/mushrooms" element={<MushroomList />} />
+              <Route path="/mushrooms/create" element={<MushroomCreate />} />
+              <Route path="/mushrooms/:id" element={<MushroomDetail />} />
+              <Route path="/users" element={<UserList />} />
+              <Route path="/users/update/:id" element={<UserUpdate />} />
+              <Route path="/users/detail/:id" element={<UserDetail />} />
+              <Route path="/predictions" element={<PredictionPost />} />
+            </Routes>
+          </header>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 
