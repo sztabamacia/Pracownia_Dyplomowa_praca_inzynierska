@@ -22,3 +22,6 @@ class HistoryService:
     
     def create_history(self, history: HistorySchemaCreate) -> History:
         return self._repository.add(history)
+    
+    def delete_history(self, history_id: int) -> None:
+        return self._repository.delete(history_id)

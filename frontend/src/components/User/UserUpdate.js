@@ -83,15 +83,18 @@ const UserUpdate = () => {
   }
 
   return (
+    <>
+    <h1>Update User</h1>
+    <p>Current username: {formData.username}</p>
+    <p>Current email: {formData.email}</p>
     <form onSubmit={handleSubmit}>
       <div>
         <label>Username:</label>
         <input
           type="text"
           name="username"
-          value={formData.username}
+          placeholder={formData.username}
           onChange={handleChange}
-          required
         />
       </div>
       <div>
@@ -99,9 +102,8 @@ const UserUpdate = () => {
         <input
           type="email"
           name="email"
-          value={formData.email}
+          placeholder={formData.email}
           onChange={handleChange}
-          required
         />
       </div>
       <div>
@@ -109,13 +111,13 @@ const UserUpdate = () => {
         <input
           type="password"
           name="passwordHash"
-          value={formData.passwordHash}
+          placeholder='Enter new password'
           onChange={handleChange}
-          required
         />
       </div>
       <button type="submit">Update User</button>
     </form>
+    </>
   );
 };
 

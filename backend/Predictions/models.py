@@ -16,4 +16,4 @@ def predict_top_3_classes(image_path):
     img = load_image(image_path)
     predictions = model.predict(img)[0]
     top_3_indices = np.argsort(predictions)[-3:][::-1]
-    return [(class_names[i], predictions[i]) for i in top_3_indices]
+    return [{"name": class_names[i], "confidence": predictions[i]} for i in top_3_indices]

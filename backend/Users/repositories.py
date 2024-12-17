@@ -51,11 +51,14 @@ class UserRepository:
     def update(self, user_id: int, user: UserSchemaUpdate):
         with self.session_factory() as session:
             entity: User = session.query(User).filter(User.userID==user_id).first()
-            if not user:
+            if not entity:
                 raise NoResultFound
-            entity.username = user.username
-            entity.email = user.email
-            entity.passwordHash = hash_password(user.passwordHash)
+            if user.username is not None:
+                entity.username = user.username
+            if user.email is not None:
+                entity.email = user.email
+            if user.passwordHash is not None:
+                entity.passwordHash = hash_password(user.passwordHash)
             session.commit()
             session.refresh(entity)
             return entity

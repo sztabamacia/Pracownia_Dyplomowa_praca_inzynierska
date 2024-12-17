@@ -53,3 +53,12 @@ async def get_history_by_user_id_and_history_id(
         raise HTTPException(status_code=403, detail="Not authorized to access this resource")
     
     return history_service.get_history_by_user_id_and_history_id(user_id, history_id)
+
+@router.delete("/delete/{history_id}", status_code=204, tags=["History"])
+@inject
+async def delete_history(
+    history_id: int,
+    history_service: HistoryService = Depends(Provide[Container.history_service])
+):
+    history_service.delete_history(history_id)
+    return Response(status_code=204)

@@ -12,9 +12,7 @@ router = APIRouter()
 @router.get("/get/list", response_model=list[UserSchema], status_code=200, tags=["User"])
 @inject
 async def get_users(
-    user_service: UserService = Depends(Provide[Container.user_service]),
-    token: HTTPAuthorizationCredentials = Depends(oauth2_scheme)
-):
+    user_service: UserService = Depends(Provide[Container.user_service])):
     return user_service.get_users()
 
 @router.post("/register", response_model=UserSchema, status_code=201, tags=["User"])
@@ -40,7 +38,7 @@ async def get_user(
     
     return jsonable_encoder(user_service.get_user(user_id))
 
-@router.put("/update/{user_id}", response_model=UserSchema, status_code=200, tags=["User"])
+@router.patch("/update/{user_id}", response_model=UserSchema, status_code=200, tags=["User"])
 @inject
 async def update_user(
     user_id: int,

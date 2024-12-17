@@ -26,7 +26,7 @@ const getUserById = (id) => {
 };
 
 const updateUser = (id, userData) => {
-  return axios.put(`${API_URL}/update/${id}`, userData);
+  return axios.patch(`${API_URL}/update/${id}`, userData);
 };
 
 const userService = {

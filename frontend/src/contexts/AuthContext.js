@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
+import {useNavigate} from 'react-router-dom';
 
 const AuthContext = createContext();
 
@@ -8,6 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState(null);
   const [userID, setUserID] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedToken = Cookies.get('token');
@@ -37,6 +39,7 @@ export const AuthProvider = ({ children }) => {
     setUserID(null);
     setIsLoggedIn(false);
     console.log('User logged out');
+    navigate('/');
   };
 
   return (
