@@ -1,7 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import authService from '../../services/authService';
 import AuthContext from '../../contexts/AuthContext';
+import '../../styles/login.css';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +10,7 @@ const Login = () => {
     passwordHash: ''
   });
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
+  const { login, userID, isLoggedIn } = useContext(AuthContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,39 +24,45 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await authService.login(formData);
-      login(response.access_token, response.userID); // Ustaw stan logowania
+      login(response.access_token); // Ustaw stan logowania
       alert('Login successful');
-      navigate(`/users/detail/${response.userID}`); // Przekierowanie na stronę profilu użytkownika
     } catch (error) {
       console.error('Error during login:', error);
       alert('Login failed');
     }
   };
 
+  useEffect(() => {
+    if (isLoggedIn && userID) {
+      navigate(`/users/detail/${userID}`);
+    }
+  }, [isLoggedIn, userID, navigate]);
+
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Email:</label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input
-          type="password"
-          name="passwordHash"
-          value={formData.passwordHash}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <button type="submit">Login</button>
-    </form>
+    <div className="login-container">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <div>
+          <label>Email:</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label>Password:</label>
+          <input
+            type="password"
+            name="passwordHash"
+            value={formData.passwordHash}
+            onChange={handleChange}
+          />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </div>
   );
 };
 

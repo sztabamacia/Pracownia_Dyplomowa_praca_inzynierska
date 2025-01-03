@@ -18,10 +18,9 @@ import { AuthProvider } from './contexts/AuthContext';
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
+    <Router>
+      <AuthProvider>
         <div className="App">
-          <header className="App-header">
             <Navigation />
             <Routes>
               <Route path="/register" element={<Register />} />
@@ -37,10 +36,9 @@ function App() {
               <Route path="/users/detail/:id" element={<UserDetail />} />
               <Route path="/predictions" element={<PredictionPost />} />
             </Routes>
-          </header>
         </div>
-      </Router>
-    </AuthProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 

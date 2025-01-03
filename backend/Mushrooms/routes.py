@@ -29,3 +29,8 @@ async def create_mushrooms(
 @inject
 async def delete_mushroom(mushroom_id: int, mushroom_service: MushroomService = Depends(Provide[Container.mushroom_service])):
     return mushroom_service.delete_mushroom(mushroom_id)
+
+@router.get("/get/name/{name}", response_model=MushroomSchema, status_code=200, tags=["Mushroom"])
+@inject
+async def get_by_name(name: str, mushroom_service: MushroomService = Depends(Provide[Container.mushroom_service])):
+    return mushroom_service.get_mushroom_by_name(name)

@@ -27,21 +27,22 @@ async def predict(
     if file.content_type not in ["image/jpeg", "image/png"]:
         raise HTTPException(status_code=400, detail="Invalid file type. Only JPEG and PNG are supported.")
 
-    # Ensure the temp directory exists
-    temp_dir = "temp"
-    if not os.path.exists(temp_dir):
-        os.makedirs(temp_dir)
+    # Ensure the permanent directory exists
+    permanent_dir = "uploads"
+    if not os.path.exists(permanent_dir):
+        os.makedirs(permanent_dir)
 
-    temp_file_path = f"temp/{uuid.uuid4()}.jpg"
-    with open(temp_file_path, "wb") as temp_file:
-        temp_file.write(await file.read())
-
-    predictions = predict_top_3_classes(temp_file_path)
-
-    os.remove(temp_file_path)
-
-    # Get user ID from token
+    # Generate a unique file name based on userID and current time
     user_id = get_user_id_from_token(token.credentials)
+    current_time = datetime.utcnow().strftime("%Y%m%d%H%M%S")
+    file_extension = file.filename.split(".")[-1]
+    permanent_file_path = f"{permanent_dir}/{user_id}_{current_time}.{file_extension}"
+
+    # Save the file permanently
+    with open(permanent_file_path, "wb") as permanent_file:
+        permanent_file.write(await file.read())
+
+    predictions = predict_top_3_classes(permanent_file_path)
 
     # Find mushroom IDs based on names
     mushroom1 = mushroom_service.get_mushroom_by_name(predictions[0]["name"])
@@ -55,7 +56,7 @@ async def predict(
     history_entry = HistorySchemaCreate(
         userID=user_id,
         createdAt=datetime.utcnow(),
-        file=await file.read(),
+        file=permanent_file_path,  # Save the file path as a string
         mushroomID1=mushroom1.mushroomID,
         confidence1=float(predictions[0]["confidence"]),
         mushroomID2=mushroom2.mushroomID,

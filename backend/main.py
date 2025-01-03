@@ -9,7 +9,8 @@ from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from customError import CustomError
-
+from fastapi.staticfiles import StaticFiles
+import auth_routes
 load_dotenv()
 
 container = Container()
@@ -21,6 +22,8 @@ if db_url is None:
 db = container.db()
 db.create_database()
 app = FastAPI()
+
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 @app.exception_handler(CustomError)
 async def unicorn_exception_handler(request, exc: CustomError):
@@ -34,10 +37,12 @@ app.include_router(routes_users.router, prefix="/users")
 app.include_router(routes_mushrooms.router, prefix="/mushrooms")
 app.include_router(routes_history.router, prefix="/history")
 app.include_router(routes_predictions.router, prefix="/predictions")
+app.include_router(auth_routes.router, prefix="/auth")
+
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],  # Lista dozwolonych domen
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -1,0 +1,49 @@
+.whole-history-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('../images/las-history-list.jpg');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
+
+.history-list-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Użycie CSS Grid Layout z maksymalnie 4 kolumnami */
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 80px; /* Dodanie marginesu górnego, aby przesunąć zawartość w dół */
+}
+
+.whole-history-list h1 {
+  position: absolute;
+  top: 100px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.history-item {
+  background-color: #f0f5f1; /* Jasny kolor tła inspirowany lasem */
+  color: #2e3d2f; /* Ciemny kolor tekstu inspirowany lasem */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.history-item:hover {
+  background-color: #e0e4e1; /* Ciemniejszy kolor tła przy najechaniu */
+}
+
+.history-item p {
+  margin: 5px 0;
+}
+
+.history-item a {
+  text-decoration: none;
+  color: inherit;
+}

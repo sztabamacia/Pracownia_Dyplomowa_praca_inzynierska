@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import userService from '../../services/userService';
 import AuthContext from '../../contexts/AuthContext';
+import '../../styles/userUpdate.css'; // Importowanie pliku CSS
 
 const UserUpdate = () => {
   const { id } = useParams();
@@ -10,7 +11,8 @@ const UserUpdate = () => {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
-    passwordHash: ''
+    passwordHash: '',
+    passwordHashRepeat: ''
   });
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -20,14 +22,14 @@ const UserUpdate = () => {
     console.log('userID:', userID, typeof userID);
     console.log('id:', id, typeof id);
 
-    if (!isLoggedIn) {
-      alert('You are not logged in.');
-      navigate('/login'); // Przekierowanie na stronę logowania
+    if (String(userID) !== String(id)) {
+      navigate(`/users/update/${userID}`); 
       return;
     }
 
-    if (userID !== id) {
-      navigate(`/users/update/${userID}`); // Przekierowanie na stronę aktualizacji użytkownika
+    if (!isLoggedIn) {
+      alert('Nie jesteś zalogowany.');
+      navigate('/login');
       return;
     }
 
@@ -35,8 +37,10 @@ const UserUpdate = () => {
       try {
         console.log('Fetching user data...');
         const response = await userService.getUserById(id);
-        const { username, email, passwordHash } = response.data;
-        setFormData({ username, email, passwordHash });
+        const { username, email } = response.data;
+        setFormData({ username, email, passwordHash: '', passwordHashRepeat: '' });
+        console.log(formData.passwordHash);
+        console.log(formData.passwordHashRepeat);
         setIsAuthorized(true);
       } catch (error) {
         console.error('Error fetching user:', error);
@@ -50,7 +54,7 @@ const UserUpdate = () => {
 
   useEffect(() => {
     if (!isLoading && !isAuthorized) {
-      navigate('/'); // Przekierowanie na stronę główną po zakończeniu ładowania
+      navigate('/');
     }
   }, [isLoading, isAuthorized, navigate]);
 
@@ -64,13 +68,20 @@ const UserUpdate = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.passwordHash !== formData.passwordHashRepeat) {
+      console.log(formData.passwordHash);
+      console.log(formData.passwordHashRepeat);
+      alert('Hasła nie są takie same.');
+      return;
+    }
     try {
-      await userService.updateUser(id, formData);
-      alert('User updated successfully');
-      navigate(`/users/detail/${id}`); // Przekierowanie na stronę profilu użytkownika
+      const { passwordHashRepeat, ...dataToSubmit } = formData; 
+      await userService.updateUser(id, dataToSubmit);
+      alert('Dane użytkownika zostały zaktualizowane.');
+      navigate(`/users/detail/${id}`);
     } catch (error) {
       console.error('Error updating user:', error);
-      alert('Failed to update user');
+      alert('Dane użytkownika nie zostały zaktualizowane.');
     }
   };
 
@@ -79,45 +90,65 @@ const UserUpdate = () => {
   }
 
   if (!isAuthorized) {
-    return null; // Nie wyświetlaj nic, jeśli użytkownik nie jest autoryzowany
+    return null;
   }
 
   return (
-    <>
-    <h1>Update User</h1>
-    <p>Current username: {formData.username}</p>
-    <p>Current email: {formData.email}</p>
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Username:</label>
-        <input
-          type="text"
-          name="username"
-          placeholder={formData.username}
-          onChange={handleChange}
-        />
+    <div className='whole-user-update'>
+      <div className="user-update-form">
+        <h1>Edytuj dane</h1>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Nazwa użytkownika:</label>
+            <input
+              type="text"
+              name="username"
+              placeholder='Nowa nazwa użytkownika'
+              onChange={handleChange}
+              maxLength={20}
+            />
+          </div>
+          <div>
+            <label>Email:</label>
+            <input
+              type="email"
+              name="email"
+              placeholder='Nowy email'
+              onChange={handleChange}
+              maxLength={20}
+            />
+          </div>
+          <div>
+            <label>Nowe hasło:</label>
+            <input
+              type="password"
+              name="passwordHash"
+              placeholder='Nowe hasło'
+              onChange={handleChange}
+              maxLength={20}
+            />
+          </div>
+          <div>
+            <label>Powtórz nowe hasło:</label>
+            <input
+              type="password"
+              name="passwordHashRepeat"
+              placeholder='Powtórz nowe hasło'
+              onChange={handleChange}
+              maxLength={20}
+            />
+          </div>
+          <button type="submit">Edytuj</button>
+          <button
+            type="button"
+            className='cancel'
+            onClick={() => navigate(`/users/detail/${id}`)}
+          >
+            Wróć
+          </button>
+        </form>
       </div>
-      <div>
-        <label>Email:</label>
-        <input
-          type="email"
-          name="email"
-          placeholder={formData.email}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input
-          type="password"
-          name="passwordHash"
-          placeholder='Enter new password'
-          onChange={handleChange}
-        />
-      </div>
-      <button type="submit">Update User</button>
-    </form>
-    </>
+    </div>
   );
 };
 

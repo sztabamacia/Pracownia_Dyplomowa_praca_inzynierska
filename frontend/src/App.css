@@ -1,38 +1,61 @@
-.App {
-  text-align: center;
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f5f1; /* Jasny kolor tła inspirowany lasem */
+  color: #2e3d2f; /* Ciemny kolor tekstu inspirowany lasem */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+#root {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Wyśrodkowanie w pionie */
+  align-items: center; /* Wyśrodkowanie w poziomie */
+}
+
+.App {
+  text-align: center;
+  background-image: url('images/las.jpg');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  background-repeat: no-repeat;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #ddf1dd; /* Kolor nagłówków inspirowany lasem */
+}
+
+p {
+  margin: 10px 0;
+}
+
+a {
+  color: #3e5c3e;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #2e3d2f;
+}
+
+button {
+  background-color: #3e5c3e; /* Kolor inspirowany lasem */
   color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button:hover {
+  background-color: #2e3d2f; /* Ciemniejszy kolor przy najechaniu */
 }

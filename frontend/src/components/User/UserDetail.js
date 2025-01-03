@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import userService from '../../services/userService';
 import AuthContext from '../../contexts/AuthContext';
+import '../../styles/userDetail.css';
 
 const UserDetail = () => {
   const { id } = useParams();
@@ -16,16 +17,17 @@ const UserDetail = () => {
     console.log('userID:', userID, typeof userID);
     console.log('id:', id, typeof id);
 
-    if (!isLoggedIn) {
-      alert('You are not logged in.');
-      navigate('/login'); // Przekierowanie na stronę logowania
+    if (String(userID) !== String(id)) {
+      navigate(`/users/detail/${userID}`); 
       return;
     }
 
-    if (userID !== id) {
-      navigate(`/users/detail/${userID}`); // Przekierowanie na stronę szczegółów użytkownika
+    if (!isLoggedIn) {
+      alert('Nie jesteś zalogowany.');
+      navigate('/login');
       return;
     }
+
 
     const fetchUser = async () => {
       try {
@@ -59,18 +61,20 @@ const UserDetail = () => {
   }
 
   return (
-    <div>
-      <h1>User Detail</h1>
+  <div className='whole-user-detail'>
+    <div className="user-detail-container">
+      <h1>Profil Użytkownika</h1>
       {user && (
         <>
-          <p>User ID: {user.userID}</p>
-          <p>Username: {user.username}</p>
+          <p>ID użytkownika: {user.userID}</p>
+          <p>Nazwa użytkownika: {user.username}</p>
           <p>Email: {user.email}</p>
-          <p>Created At: {user.createdAt ? new Date(user.createdAt).toLocaleString() : 'N/A'}</p>
-          <Link to={`/users/update/${user.userID}`}>Update</Link>
+          <p>Konto utworzono: {user.createdAt ? new Date(user.createdAt).toLocaleString() : 'N/A'}</p>
+          <Link to={`/users/update/${user.userID}`}>Edytuj</Link>
         </>
       )}
     </div>
+  </div>
   );
 };
 

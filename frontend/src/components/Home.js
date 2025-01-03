@@ -1,34 +1,14 @@
-// src/components/Home.js
 import React from 'react';
-import { Link } from 'react-router-dom';
+import '../styles/home.css';
 
 const Home = () => {
   return (
-    <div>
-      <h1>Welcome to the Home Page</h1>
-      <p>This is the home page of the application.</p>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/register">Register</Link>
-          </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/history">History</Link>
-          </li>
-          <li>
-            <Link to="/mushrooms">Mushrooms</Link>
-          </li>
-          <li>
-            <Link to="/users">Users</Link>
-          </li>
-          <li>
-            <Link to="/predictions">Predictions</Link>
-          </li>
-        </ul>
-      </nav>
+    <div className="home-container">
+      <div className="home-content">
+        <h1>Witamy w Raju Grzybiarzy</h1>
+        <p>Odkrywaj świat grzybów i poszerzaj swoją wiedzę.</p>
+        <p>Użyj paska nawigacyjnego, aby uzyskać dostęp do innych stron.</p>
+      </div>
     </div>
   );
 };

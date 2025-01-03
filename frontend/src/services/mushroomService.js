@@ -14,8 +14,13 @@ const createMushroom = (mushroomData) => {
   return axios.post(`${API_URL}/create`, mushroomData);
 };
 
+const getMushroomByScientificName = (scientificName) => {
+  return axios.get(`${API_URL}/get/name/${scientificName}`);
+};
+
 export default {
   getMushroomList,
   getMushroomById,
-  createMushroom
+  createMushroom,
+  getMushroomByScientificName
 };

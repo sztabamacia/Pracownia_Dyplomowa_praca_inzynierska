@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import { jwtDecode } from 'jwt-decode';
-import {useNavigate} from 'react-router-dom';
+import {jwtDecode} from 'jwt-decode';
+import authService from '../services/authService';
 
 const AuthContext = createContext();
 
@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState(null);
   const [userID, setUserID] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const storedToken = Cookies.get('token');
@@ -22,6 +21,30 @@ export const AuthProvider = ({ children }) => {
       console.log('User is logged in:', storedUserID);
     }
   }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refreshAccessToken();
+    }, 1000 * 60); // Odświeżaj token co minutę
+    return () => clearInterval(interval);
+  }, [token]);
+
+  const refreshAccessToken = async () => {
+    try {
+      const response = await authService.refreshToken(token);
+      const newToken = response.access_token;
+      const decodedToken = jwtDecode(newToken);
+      const userID = decodedToken.sub;
+      Cookies.set('token', newToken, { expires: 7 });
+      setToken(newToken);
+      setUserID(userID);
+      setIsLoggedIn(true);
+      console.log('Token refreshed:', userID);
+    } catch (error) {
+      console.error('Error refreshing token:', error);
+      logout();
+    }
+  };
 
   const login = (token) => {
     const decodedToken = jwtDecode(token);
@@ -39,7 +62,6 @@ export const AuthProvider = ({ children }) => {
     setUserID(null);
     setIsLoggedIn(false);
     console.log('User logged out');
-    navigate('/');
   };
 
   return (

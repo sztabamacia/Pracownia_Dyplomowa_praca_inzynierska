@@ -1,0 +1,44 @@
+.whole-user-detail{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('../images/las-user-details.jpg');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
+
+
+.user-detail-container {
+    background-color: #f0f5f1; /* Jasny kolor tła inspirowany lasem */
+    color: #2e3d2f; /* Ciemny kolor tekstu inspirowany lasem */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 40px auto;
+  }
+  
+  .user-detail-container h1 {
+    color: #3e5c3e; /* Kolor nagłówka inspirowany lasem */
+    margin-bottom: 20px;
+  }
+  
+  .user-detail-container p {
+    margin: 10px 0;
+  }
+  
+  .user-detail-container a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #6b8e23; /* Kolor przycisku inspirowany grzybami */
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .user-detail-container a:hover {
+    background-color: #556b2f; /* Ciemniejszy kolor przycisku przy najechaniu */
+  }

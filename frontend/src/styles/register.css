@@ -1,0 +1,53 @@
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('../images/las-register.jpg');
+    background-size: cover;
+    background-position: center;
+
+  }
+  
+  .register-form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; /* Maksymalna szerokość formularza */
+    box-sizing: border-box; /* Uwzględnienie paddingu w szerokości */
+  }
+  
+  .register-form div {
+    margin-bottom: 15px;
+  }
+  
+  .register-form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #2e3d2f; /* Ciemny kolor tekstu inspirowany lasem */
+  }
+  
+  .register-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Uwzględnienie paddingu w szerokości */
+  }
+  
+  .register-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #3e5c3e; /* Kolor inspirowany lasem */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .register-form button:hover {
+    background-color: #2e3d2f; /* Ciemniejszy kolor przy najechaniu */
+  }

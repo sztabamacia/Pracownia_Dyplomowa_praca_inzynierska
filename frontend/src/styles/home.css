@@ -1,0 +1,17 @@
+.home-container {
+    background-image: url('../images/las.jpg'); /* Ustawienie tła */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+  }
+  
+  .home-content {
+    background-color: rgba(0, 0, 0, 0.5); /* Półprzezroczyste tło dla tekstu */
+    padding: 20px;
+    border-radius: 10px;
+  }

@@ -20,7 +20,6 @@ async def get_users(
 async def create_user(
     user_service=Depends(Provide[Container.user_service]),
     user: UserSchemaCreate = Body(...),
-    token: HTTPAuthorizationCredentials = Depends(oauth2_scheme)
 ):
     return user_service.create_user(user)
 

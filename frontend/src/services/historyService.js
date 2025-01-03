@@ -3,7 +3,6 @@ import Cookies from 'js-cookie';
 
 const API_URL = 'http://127.0.0.1:8000/history';
 
-// Konfiguracja Axios, aby automatycznie dodawać nagłówek Authorization do wszystkich żądań
 axios.interceptors.request.use(
   (config) => {
     const token = Cookies.get('token');
@@ -25,7 +24,12 @@ const getHistoryByUserIdAndHistoryId = async (userID, historyID) => {
   return await axios.get(`${API_URL}/get/user/${userID}/history/${historyID}`);
 };
 
+const deleteHistoryById = async (historyID) => {
+  return await axios.delete(`${API_URL}/delete/${historyID}`);
+};
+
 export default {
   getHistoryListByUserId,
   getHistoryByUserIdAndHistoryId,
+  deleteHistoryById
 };
